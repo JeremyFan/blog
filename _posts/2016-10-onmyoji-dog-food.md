@@ -38,4 +38,4 @@ dogfood(6);
 
 （最后补一张唯一的6星鸟姐~）
 
-![](/images/guhuoniao.png)
+![](/blog/images/guhuoniao.png)
