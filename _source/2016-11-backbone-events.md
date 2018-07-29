@@ -7,7 +7,7 @@ Backbone.Events实现了自定义事件的功能，是一个独立的模块。
 
 _events对象：
 
-![](/blog/images/backbone.events.png)
+![](/images/backbone.events.png)
 
 ### 如何trigger
 有了_events对象，trigger时就可以直接取_events[attr]中事件处理函数。当然有很多细节需要处理。

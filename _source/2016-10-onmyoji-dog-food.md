@@ -32,4 +32,4 @@ dogfood(6);
 
 （最后补一张唯一的6星鸟姐~）
 
-![](/blog/images/guhuoniao.png)
+![](/images/guhuoniao.png)

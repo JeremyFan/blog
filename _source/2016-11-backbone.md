@@ -11,4 +11,4 @@ Backbone 的模块划分的非常清晰：
 Backbone 依赖 jQuery 和 underscore 两个库，其实是依赖`$`和`_`两个对象，实现需要的 API 即可。
 
 
-![](/blog/images/backbone.png)
+![](/images/backbone.png)
