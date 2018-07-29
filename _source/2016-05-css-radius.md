@@ -2,7 +2,7 @@
 
 实现圆角，最常用的是使用**背景图**和`border-radius`属性。但看到一种思路比较奇特的实现。
 
-![radius.png](/blog/images/radius.png)
+![radius.png](/images/radius.png)
 
 ## 圆角背景图
 ```css
