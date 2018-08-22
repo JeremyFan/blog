@@ -58,4 +58,4 @@ vscode-dirstructure多做了一些东西就是可以在`#`后面添加注释，�
 2. `Option+i`呼出菜单
 3. 选择`toTree`或`toMD`
 
-附上项目地址：https://github.com/JeremyFan/vscode-dirstructure
+观看演示或代码：https://github.com/JeremyFan/vscode-dirstructure
