@@ -3,9 +3,6 @@ title: 关于eslint-plugin-import无法识别webpack alias问题
 date: 2018/08/23
 ---
 
-<!-- more -->
-
-# 关于eslint-plugin-import无法识别webpack alias问题
 
 有时为了方便引入模块，我们会配置 alias，比如：
 ```js
@@ -22,6 +19,8 @@ import Layout from 'components/Layout';
 ```
 
 但 eslint-plugin-import 默认是无法识别 webpack 配置的 alias 的，所以可能会有错误提示，比较常见的是这两条规则：import/no-unresolved与import/extensions。
+
+<!-- more -->
 
 [eslint] Unable to resolve path to module 'components/Layout'. (import/no-unresolved)
 [eslint] Missing file extension for "components/Layout" (import/extensions)
