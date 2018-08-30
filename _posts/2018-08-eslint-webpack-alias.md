@@ -1,3 +1,12 @@
+---
+title: 关于eslint-plugin-import无法识别webpack alias问题
+date: 2018/08/23
+---
+
+<!-- more -->
+
+# 关于eslint-plugin-import无法识别webpack alias问题
+
 有时为了方便引入模块，我们会配置 alias，比如：
 ```js
 resolve: {
