@@ -1,0 +1,46 @@
+# JavaScript中的Blob对象到底是个啥
+
+Blob 是 Binary Large Object 的缩写，翻译成中文是二进制大型对象。MDN对它的描述是：「一个不可变、原始数据的类文件对象」。之所以说 Blob 是类文件对象，是因为我们熟悉的文件对象是基于它实现的。
+
+Blob 是浏览器 File API 的一部分，规范中描述它「指向一个字节序列」。除了 Blob，File API 还包括 File、FileList、FileReader、URL。
+
+##  File API 构成
+
+### File 与 FileList
+可能我们最熟悉的 File API 就是 File 和 FileList 了。
+FileList 表示一个文件列表，是一个类数组对象，包含的每个元素都是 File 对象。File 对象不能直接通过代码创建，只能从 FileList 中取得。
+
+通常我们通过input元素上传文件后，这个元素的 files 属性就是一个 FileList 对象。
+```html
+<input type="file">
+```
+
+如果我们使用 HTML5 的拖拽接口，可以通过事件的 DataTransfer 对象取到 FileList。
+```js
+target.addEventListener("drop", function(event) {
+    console.log(event.dataTransfer.files);
+}, false);
+```
+
+### FileReader
+FileReader 用来读取文件的内容，它的工作形式和 XHR（XMLHTTPRequest）对象非常像，不同的是 XHR 读取的是远程服务器上的资源，而 FileReader 读取的是本地文件。
+FileReader这几个方法，可以把文件读成不同的内容：
+- readAsText()：读成字符串
+- readAsDataURL()：读成Data URLs
+- readAsArrayBuffer()：读成 ArrayBuffer 对象
+
+Data URLs 即 data: 协议的URL，比如我们常常看到的这种直接把图片的内容用 base64 编码，然后嵌到 HTML 中的形式：
+```
+<img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAA……">
+```
+
+另外还有中止读取操作的方法 abort()，以及已经废弃的方法 readAsBinaryString()（被 readAsArrayBuffer 替代）。
+
+以 readAsText 为例读取文件内容，可以看到确实和 XHR 非常像：
+```
+var reader = new FileReader();
+reader.onload = function(event) {
+    console.log(event.target.result);
+};
+reader.readAsText(file);
+```
