@@ -105,3 +105,17 @@ reader.onload = event => {
 };
 reader.readAsText(newBlob);
 ```
+
+## Blob 小应用
+最后以一个简单的小栗子作为结束吧。
+```js
+// 创建一个脚本类型的Blob对象
+const blob = new Blob(['alert("a blob script")'], { type: 'text/javascript' });
+const script = document.createElement('script');
+// 创建链接
+script.src = window.URL.createObjectURL(blob);
+document.body.appendChild(script);
+```
+这段代码使用 Blob 创建了一个脚本文件并生成 URL 链接，然后创建了一个`<script>`标签引入脚本、插到文档里。
+
+在浏览器控制台输入这段代码，会弹出一个"a blob script"框，是不是有点好玩呢。
