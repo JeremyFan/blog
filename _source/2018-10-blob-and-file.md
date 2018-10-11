@@ -119,3 +119,9 @@ document.body.appendChild(script);
 这段代码使用 Blob 创建了一个脚本文件并生成 URL 链接，然后创建了一个`<script>`标签引入脚本、插到文档里。
 
 在浏览器控制台输入这段代码，会弹出一个"a blob script"框，是不是有点好玩呢。
+
+## 参考
+- File API 规范：https://w3c.github.io/FileAPI/
+- Nicholas C. Zakas 的 File API 系列文章：https://humanwhocodes.com/blog/tag/file-api/
+- An Introduction To JavaScript Blobs and File Interface：http://qnimate.com/an-introduction-to-javascript-blobs-and-file-interface/
+- MDN：[Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob)、[File](https://developer.mozilla.org/en-US/docs/Web/API/File)、[FileList](https://developer.mozilla.org/en-US/docs/Web/API/FileList)、[FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader)、[URL](https://developer.mozilla.org/en-US/docs/Web/API/URL)
