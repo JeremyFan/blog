@@ -1,11 +1,18 @@
-# JavaScript中的文件与 Blob
+# JavaScript中的文件对象与 Blob
 
-Blob 是 Binary Large Object 的缩写，翻译成中文是二进制大型对象。MDN对它的描述是：「一个不可变、原始数据的类文件对象」。之所以说 Blob 是类文件对象，是因为我们熟悉的文件对象是基于它实现的。
+文件对象是 Web 应用中很重要的一部分，我们经常实现的上传功能就会用到文件对象，而对于 Blob 就没有那么熟悉了。
 
-Blob 是浏览器 File API 的一部分，规范中描述它「指向一个字节序列」。除了 Blob，File API 还提供 File、FileList、FileReader、URL 等接口。
+文件对象和 Blob 都是浏览器 File API 的一部分。我们先来回顾一下 File API 的构成。
 
 ##  File API 构成
-我们先来回顾一下 File API 的构成。简单来说，File、FileList 提供文件对象，FileReader 提供读取文件的方法，URL 可以生成指向本地文件的链接。
+File API 一共包含五个部分：
+- File
+- FileList
+- FileReader
+- Object URL
+- Blob
+
+简单来说，File、FileList 提供文件对象，FileReader 提供读取文件的方法，URL 可以生成指向本地文件的链接。
 
 ### File 与 FileList
 可能我们最熟悉的 File API 就是 File 和 FileList 了。
@@ -73,7 +80,11 @@ URL.revokeObjectURL(url);
 有一点类似上面提到的 Data URLs，但 Data URLs 是直接表示图片内容，Blob URL 是指向本地图片的一个链接。
 
 ## Blob
-终于说到 Blob 了，先来看一下 Blob 都有哪些接口吧。
+终于说到 Blob 了。
+
+Blob 是 Binary Large Object 的缩写，翻译成中文是二进制大型对象。MDN 对它的描述是「a file-like object of immutable, raw data」，规范中的描述是「represents immutable raw binary data」，可以把 Blob 理解成存储二进制原始数据的类文件对象。大部分情况下，可以像操作文件对象一样操作 Blob，因为文件对象的接口继承自 Blob，也可以说文件对象是基于 Blob 实现的。
+
+先来看一下 Blob 都有哪些接口吧。
 
 ### 接口
 其实 Blob 的接口比较简单：
@@ -119,6 +130,12 @@ document.body.appendChild(script);
 这段代码使用 Blob 创建了一个脚本文件并生成 URL 链接，然后创建了一个`<script>`标签引入脚本、插到文档里。
 
 在浏览器控制台输入这段代码，会弹出一个"a blob script"框，是不是有点好玩呢。
+
+PS：少数网站，比如github，不会弹框，会在控制台报错
+```
+Refused to load the script 'blob:https://github.com/b3a5b7a2-102d-4466-9e1e-5ed456b21c82' because it violates the following Content Security Policy directive: "script-src assets-cdn.github.com".
+```
+这是出于安全考虑，github.com只信任自己的cdn站点——assets-cdn.github.com上的脚本。
 
 ## 参考
 - File API 规范：https://w3c.github.io/FileAPI/
