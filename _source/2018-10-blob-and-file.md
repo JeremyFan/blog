@@ -141,4 +141,4 @@ Refused to load the script 'blob:https://github.com/b3a5b7a2-102d-4466-9e1e-5ed4
 - File API 规范：https://w3c.github.io/FileAPI/
 - Nicholas C. Zakas 的 File API 系列文章：https://humanwhocodes.com/blog/tag/file-api/
 - An Introduction To JavaScript Blobs and File Interface：http://qnimate.com/an-introduction-to-javascript-blobs-and-file-interface/
-- MDN：[Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob)、[File](https://developer.mozilla.org/en-US/docs/Web/API/File)、[FileList](https://developer.mozilla.org/en-US/docs/Web/API/FileList)、[FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader)、[URL](https://developer.mozilla.org/en-US/docs/Web/API/URL)
+- MDN：[File](https://developer.mozilla.org/en-US/docs/Web/API/File)、[FileList](https://developer.mozilla.org/en-US/docs/Web/API/FileList)、[FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader)、[URL](https://developer.mozilla.org/en-US/docs/Web/API/URL)、[Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob)
