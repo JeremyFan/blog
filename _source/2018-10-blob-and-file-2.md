@@ -4,9 +4,9 @@
 这次再补上一个简单的 Blob 应用：把一段 svg 代码转成 png 图片。
 
 ## demo
-demo地址：https://codepen.io/JeremyFan/pen/YJYKNe
+地址：[codepen demo]
 
-我从 iconfont.cn 上找了一段 svg 代码作为原材料，目标就是把它转成 png 图片下载下来。（虽然 iconfont 支持直接下载成 png 文件0.0）
+我从 [iconfont.cn] 上找了一段 svg 代码作为原材料，目标就是把它转成 png 图片下载下来。（虽然 iconfont 支持直接下载成 png 文件0.0）
 
 代码如下（删掉了一些不必要的字段）：
 ```html
@@ -20,27 +20,28 @@ demo地址：https://codepen.io/JeremyFan/pen/YJYKNe
 </svg>
 ```
 
-把这段 svg 代码粘到demo的textarea框里，然后点一下「Download PNG」按钮，就会得到一张 png 图片。
+把这段 svg 代码粘到 demo的框里，然后点一下「Download PNG」按钮，就会得到一张 png 图片。
 
 ## 实现
+实现有两个比较关键的点，一个是我们如何把 svg 转成图片，另一个是如何把图片下载下来。针对第二个问题，想要下载图片，就要拿到图片的地址，上一篇文章提到可以使用 URL 为 blob 对象生成地址链接，有了链接就好办了。针对第一个问题，我们要稍微做下转换，先用 svg 创建一个 blob 对象，通过这个 blob 对象创建一个 img 元素，把这个 img 绘制到 canvas 上，然后通过 canvas 再创建一个 blob 对象（png 类型），这个 blob 对象就是最终要被下载的 png 图片。
+
 ### 主要步骤
-其实实现也比较简单， 首先我们要把 svg 转成 blob，并生成一个图片链接；然后把这个图片绘制到 canvas 上，再把 canvas 转成 blob 下载下来。整个过程是：
+梳理了下，整个过程是：
 
 ```
-svg->blob->img->canvas->blob->png
+svg->blob->img->canvas->blob->下载
 
 ```
 
-### 技术点
-看一下这其中每个步骤的关键技术点：
+分解一下每个步骤的关键点：
 1. svg -> blob
 上一篇文章我们介绍到，blob 的构造函数支持 DOMString，所以我们是可以直接基于 svg 代码串构建 blob 对象的。
 
 2. blob -> img
-上一篇文章我们介绍到，可以使用`URL.createObjectURL()`生成链接，作为`img`元素的`src`。我们可以 new 一个 Image 对象，然后 onload 的时候就可以使用了。
+上一篇文章我们介绍到，可以使用`URL.createObjectURL()`生成链接，作为`img`元素的`src`。我们可以用这个`src` new 一个 Image 对象。
 
 3. img -> canvas
-这个大家都知道，可以使用 canvas 的`drawImage()`方法把`img`元素绘制到 canvas 上。
+这个大家都知道的，可以使用 canvas 的`drawImage()`方法把`img`元素绘制到 canvas 上。
 
 4. canvas -> blob
 canvas 还有一个方法叫`toBlob()`，可以为画布上的图像创建一个 blob 对象，默认类型为`image/png`。
@@ -48,7 +49,17 @@ canvas 还有一个方法叫`toBlob()`，可以为画布上的图像创建一个
 5. blob->png
 再次使用`URL.createObjectURL()`方法为刚刚画布创建的 blob 生成链接，然后下载。
 
-这就是整个转换的过程，下面来看一下具体的代码。
+再提一下下载，我们知道`<a>`标签可以链接到一个图片，
+```html
+<a href="https://example.com/demo.png">
+```
+但浏览器并不会下载这张图片，而是会在页面内打开图片预览。想要浏览器以附件形式下载，有两种方案：
+1. 图片服务器设置响应头`Content-Disposition: attachment;`；
+2. 为`<a>`标签加上 [download属性]。
+第一种涉及到服务端操作，有些麻烦，我们使用第二种方案就好。
+
+
+下面来看一下具体的代码。
 
 ## 代码
 
@@ -113,12 +124,19 @@ function downloadBlob(blob){
 }
 ```
 
-主要是使用`URL.createObjectURL(blob)`生成链接，创建`a`标签并模拟点击，用到了[download](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a)属性可以了解一下。
+主要是使用`URL.createObjectURL(blob)`生成链接，用 download 属性让浏览器以附件形式下载图片、定义下载文件名，创建`a`标签并模拟点击。
 
 ## 总结
-其实我感觉我这边拆开说有点不连贯，还不如直接在去[codepen demo](https://codepen.io/JeremyFan/pen/YJYKNe?editors=1010)看完整的代码，实现还是比较简单清晰的，再查一查不熟的 api，就都好理解了。
-
-
+其实我感觉我这边拆开说有点不连贯，还不如直接在去[codepen demo]看完整的代码，实现还是比较简单清晰的，再查一查不熟的 api，就都好理解了。
 
 ## 参考
-MDN：[<a>标签](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)、canvas 的[drawImage()方法](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage)、[toBlob() 方法](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toBlob)
+MDN：[`<a>`标签]、canvas 的 [drawImage()方法]、[toBlob()方法]、[响应头 Content-Disposition]
+
+[`<a>`标签]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
+[drawImage()方法]: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+[toBlob()方法]: https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toBlob
+[响应头 Content-Disposition]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition
+
+[iconfont.cn]: http://iconfont.cn/
+[download属性]: https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a
+[codepen demo]: https://codepen.io/JeremyFan/pen/YJYKNe?editors=1010
