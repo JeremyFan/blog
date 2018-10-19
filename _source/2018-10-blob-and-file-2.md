@@ -1,4 +1,4 @@
-# JavaScript中的文件对象与 Blob 续：svg转png
+# JavaScript中的文件对象与 Blob 续：svg 转 png
 
 写完上篇文章后发现 Blob 的部分说的太少了。
 这次再补上一个简单的 Blob 应用：把一段 svg 代码转成 png 图片。
