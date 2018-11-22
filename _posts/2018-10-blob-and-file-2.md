@@ -1,4 +1,3 @@
-# 
 ---
 title: JavaScript中的文件对象与 Blob 续：Blob 实践之 svg 转 png 图片
 date: 2018/10/25
