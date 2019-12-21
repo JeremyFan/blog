@@ -15,4 +15,4 @@ addons:
   ssh_known_hosts: 50.116.36.79
 
 after_success:
-- ssh root@50.116.36.79 'cd /home/github/blog && git pull'
+- ssh root@50.116.36.79 'cd /home/github/blog && git pull && cd /home/www/blog && hexo g'
