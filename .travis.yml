@@ -8,7 +8,7 @@ branches:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_750171d8cb6d_key -iv $encrypted_750171d8cb6d_iv
-  -in travis_id_rsa.enc -out ~/.ssh/travis_id_rsa -d
+  -in travis_id_rsa.enc -out ~/.ssh/id_rsa -d
 
 addons:
   ssh_known_hosts: 50.116.36.79
