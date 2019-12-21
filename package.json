@@ -1,0 +1,23 @@
+{
+  "name": "jeremys-blog",
+  "version": "1.0.0",
+  "description": "jeremy's blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremyFan/blog.git"
+  },
+  "keywords": [
+    "blog",
+    "hexo"
+  ],
+  "author": "jeremyfan <jeremyfan_14@live.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeremyFan/blog/issues"
+  },
+  "homepage": "https://github.com/JeremyFan/blog#readme"
+}
