@@ -1,0 +1,13 @@
+name: Publisher
+
+on: push
+  branchers:
+    - master
+
+jobs:
+  publish:
+    name: Publish
+
+    steps:
+      - name: Checkout code
+        run: cd github/blog && git pull
