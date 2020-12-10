@@ -2,8 +2,7 @@ name: Publisher
 
 on: 
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   publish:
