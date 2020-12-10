@@ -1,13 +1,14 @@
 name: Publisher
 
-on: push
-  branchers:
-    - master
+on: 
+  push:
+    branchers:
+      - master
 
 jobs:
   publish:
     name: Publish
-
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         run: cd github/blog && git pull
