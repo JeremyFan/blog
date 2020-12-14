@@ -2,7 +2,7 @@
 
 实现圆角，最常用的是使用**背景图**和`border-radius`属性。但看到一种思路比较奇特的实现。
 
-![radius.png](../images/radius.png)
+![radius.png](../blog/images/radius.png)
 
 ## 圆角背景图
 ```css
@@ -23,7 +23,7 @@ border-radius: 5px;
 这个方法就略奇葩，但确实出现在了我们的产品中。大致思路是使用不同宽度的1px直线达到渐变的效果。
 具体来说：使用几个`<b>`标签，用`margin`控制宽度，从上到下一次变长，造成一种圆角的感觉。
 
-![clipboard.png](../images/radius_2.png)
+![clipboard.png](../blog/images/radius_2.png)
 
 所以这个圆角其实只是模拟的圆角，并不是很圆，但应该也瞒混的过去...
 
