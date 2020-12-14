@@ -10,6 +10,7 @@ const retextStringify = require('retext-stringify')
 const { src, dist } = require('./config')
 
 fs.readdir(path.resolve(__dirname, src), (err, files) => {
+  files = [files[0]]
   files.forEach(compileFile)
 })
 
@@ -21,31 +22,43 @@ function compileFile(file) {
   });
 
   let input = ''
-  let restTexts = ''
-  let needTransform = true
-
+  let desc = ''
+  let content = ''
+  let lineType = 0
   rl.on('line', (line) => {
-    if (line.indexOf('##') === 0) {
-      needTransform = false
+    if (line.indexOf('#') === 0 && line.indexOf('##') !== 0) {
+      input += line + '\n'
+      lineType = 1
+
+      return
     }
 
-    if (needTransform) {
-      input += line + '\n'
-    } else {
-      restTexts += line + '\n'
+    if (line.indexOf('##') === 0) {
+      lineType = 2
+    }
+
+    switch (lineType) {
+      case 1:
+        desc += line + '\n'
+        break;
+      case 2:
+        content += line + '\n'
+        break
+      default:
+        return
     }
   });
 
   rl.on('close', () => {
     compile({
-      name: '2020-12-14-github-actions',
+      name: file,
       content: input
     }, (output) => {
       if (!fs.existsSync(dist)) {
         fs.mkdirSync(dist)
       }
 
-      fs.writeFileSync(path.resolve(__dirname, `${dist}/2020-12-14-github-actions.md`), `${output}\n\n<!--more-->\n\n${restTexts}`, { encoding: 'utf-8' })
+      fs.writeFileSync(path.resolve(__dirname, `${dist}/${file}`), `${output}${desc}<!--more-->\n\n${content}`, { encoding: 'utf-8' })
     })
   })
 }
@@ -58,6 +71,10 @@ function compile(file, cb) {
     .use(transformer, { date: name })
     .use(retextStringify)
     .process(content, function (err, file) {
+      if(err){
+        console.log(err)
+      }
+      
       cb && cb(file)
     })
 }
