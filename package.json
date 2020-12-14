@@ -4,7 +4,8 @@
   "description": "jeremy's blog",
   "main": "index.js",
   "scripts": {
-    "test": "exit 0"
+    "test": "exit 0",
+    "build": "node compiler/index"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,18 @@
   "bugs": {
     "url": "https://github.com/JeremyFan/blog/issues"
   },
-  "homepage": "https://github.com/JeremyFan/blog#readme"
+  "homepage": "https://github.com/JeremyFan/blog#readme",
+  "devDependencies": {
+    "remark-parse": "^9.0.0",
+    "retext-stringify": "^2.0.4",
+    "unified": "^9.2.0"
+  },
+  "dependencies": {
+    "rehype-document": "^5.1.0",
+    "rehype-format": "^3.1.0",
+    "rehype-stringify": "^8.0.0",
+    "remark-rehype": "^8.0.0",
+    "remark-stringify": "^9.0.1",
+    "vfile-reporter": "^6.0.2"
+  }
 }
