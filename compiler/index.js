@@ -4,13 +4,15 @@ const readline = require('readline')
 
 const unified = require('unified')
 const markdown = require('remark-parse')
+const remarkStringify = require('remark-stringify')
 const transformer = require('./transformer')
-const retextStringify = require('retext-stringify')
 
 const { src, dist } = require('./config')
 
+
 fs.readdir(path.resolve(__dirname, src), (err, files) => {
   files = [files[0]]
+  // files = [files[0], files[files.length - 2], files[files.length - 1]]
   files.forEach(compileFile)
 })
 
@@ -52,13 +54,16 @@ function compileFile(file) {
   rl.on('close', () => {
     compile({
       name: file,
-      content: input
+      content: input + desc + content
     }, (output) => {
       if (!fs.existsSync(dist)) {
         fs.mkdirSync(dist)
       }
 
-      fs.writeFileSync(path.resolve(__dirname, `${dist}/${file}`), `${output}${desc}<!--more-->\n\n${content}`, { encoding: 'utf-8' })
+      // output有很多\，手动去掉
+      const content = unescapeBackslash(output.contents)
+
+      fs.writeFileSync(path.resolve(__dirname, `${dist}/${file}`), content, { encoding: 'utf-8' })
     })
   })
 }
@@ -69,12 +74,28 @@ function compile(file, cb) {
   unified()
     .use(markdown)
     .use(transformer, { date: name })
-    .use(retextStringify)
+    .use(remarkStringify, {
+      bullet: '*',
+      listItemIndent: 'one',
+    })
     .process(content, function (err, file) {
-      if(err){
+      if (err) {
         console.log(err)
       }
-      
+
       cb && cb(file)
     })
+}
+
+function unescapeBackslash(input) {
+  const REGs = [
+    /\\(\*)/g,
+    /\\(\[)/g,
+    /\\(\-)/g,
+    /\\(\_)/g,
+  ]
+
+  return REGs.reduce((str, reg) => {
+    return str.replace(reg, '$1')
+  }, input)
 }

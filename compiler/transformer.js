@@ -6,29 +6,65 @@ const DEFAULT_DATE = '2046-09-29'
 
 function document({ date = '' }) {
   const matched = date.match(DATE_REG)
-
   const matchedDate = (matched && matched[1]) ? matched[1] : DEFAULT_DATE
+
+  let meetFirstSubHeading = false
 
   return transformer
 
-  function transformer(tree, file) {
-    if (tree.type === 'root') {
-      tree.children = tree.children.map((item, index) => {
-        if (item.type === 'heading' && item.depth === 1) {
-          
-          return {
+  function transformer(tree) {
+    const result = {
+      type: 'root',
+      children: [],
+      position: tree.position,
+    }
+
+    let current = 0;
+    let node = null;
+
+    while (current < tree.children.length) {
+      node = tree.children[current]
+
+      if (node.type === 'heading' && node.depth === 1) {
+        node = {
+          type: 'paragraph',
+          children: [{
+            type: 'text',
+            value: `---\ntitle: ${node.children[0].value}\ndate: ${matchedDate}\n---\n`
+          }]
+        }
+      }
+
+      if (node.type === 'paragraph' && node.children && node.children.find(item => item.type === 'image')) {
+        node.children = node.children.map(item => {
+          if (item.type === 'image') {
+            if (item.url.indexOf('../') > -1) {
+              item.url = item.url.replace('\.\.\/', '/blog\/')
+            }
+          }
+          return item
+        })
+      }
+
+      if (node.type === 'heading' && node.depth === 2) {
+        if (!meetFirstSubHeading) {
+          result.children.push({
             type: 'paragraph',
             children: [{
-              type: 'text',
-              value: `---\ntitle: ${item.children[0].value}\ndate: ${matchedDate}\n---\n`
+              type: 'html',
+              value: `<!--more-->`
             }]
-          }
+          })
+
+          meetFirstSubHeading = true
         }
+      }
 
-        return item
-      })
+      result.children.push(node)
 
-      return tree
+      current++
     }
+
+    return result
   }
 }
