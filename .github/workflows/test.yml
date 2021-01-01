@@ -1,0 +1,13 @@
+name: Test
+
+on: 
+  push:
+    branches: [ master ]
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        run: cd /root/github/blog && git pull && cd /root/hexo && hexo g
