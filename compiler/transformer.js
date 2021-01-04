@@ -4,8 +4,8 @@ const DATE_REG = /^(\d{4}[\/-]\d{2}[\/-]\d{2})/
 const DEFAULT_DATE = '2046-09-29'
 
 
-function document({ date = '' }) {
-  const matched = date.match(DATE_REG)
+function document({ name = '' }) {
+  const matched = name.match(DATE_REG)
   const matchedDate = (matched && matched[1]) ? matched[1] : DEFAULT_DATE
 
   let meetFirstSubHeading = false

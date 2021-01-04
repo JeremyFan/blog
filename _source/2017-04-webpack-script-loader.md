@@ -4,6 +4,8 @@
 
 作为 webpack 初学者，分享一种简单的处理思路。
 
+## script-loader
+
 因为发现了 `script-loader` 这个loader。
 
 文档中的说明很简单：

@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const readline = require('readline')
 
 const unified = require('unified')
 const markdown = require('remark-parse')
@@ -9,62 +8,24 @@ const transformer = require('./transformer')
 
 const { src, dist } = require('./config')
 
-
 fs.readdir(path.resolve(__dirname, src), (err, files) => {
-  files = [files[0]]
-  // files = [files[0], files[files.length - 2], files[files.length - 1]]
   files.forEach(compileFile)
 })
 
 function compileFile(file) {
   const dataPath = path.resolve(__dirname, `${src}/${file}`)
 
-  const rl = readline.createInterface({
-    input: fs.createReadStream(dataPath),
-  });
+  const input = fs.readFileSync(dataPath, { encoding: 'utf-8' })
 
-  let input = ''
-  let desc = ''
-  let content = ''
-  let lineType = 0
-  rl.on('line', (line) => {
-    if (line.indexOf('#') === 0 && line.indexOf('##') !== 0) {
-      input += line + '\n'
-      lineType = 1
-
-      return
+  compile({
+    name: file,
+    content: input
+  }, (output) => {
+    if (!fs.existsSync(dist)) {
+      fs.mkdirSync(dist)
     }
 
-    if (line.indexOf('##') === 0) {
-      lineType = 2
-    }
-
-    switch (lineType) {
-      case 1:
-        desc += line + '\n'
-        break;
-      case 2:
-        content += line + '\n'
-        break
-      default:
-        return
-    }
-  });
-
-  rl.on('close', () => {
-    compile({
-      name: file,
-      content: input + desc + content
-    }, (output) => {
-      if (!fs.existsSync(dist)) {
-        fs.mkdirSync(dist)
-      }
-
-      // output有很多\，手动去掉
-      const content = unescapeBackslash(output.contents)
-
-      fs.writeFileSync(path.resolve(__dirname, `${dist}/${file}`), content, { encoding: 'utf-8' })
-    })
+    fs.writeFileSync(path.resolve(__dirname, `${dist}/${file}`), output, { encoding: 'utf-8' })
   })
 }
 
@@ -73,17 +34,17 @@ function compile(file, cb) {
 
   unified()
     .use(markdown)
-    .use(transformer, { date: name })
+    .use(transformer, { name })
     .use(remarkStringify, {
-      bullet: '*',
       listItemIndent: 'one',
     })
-    .process(content, function (err, file) {
+    .process(content, function (err, result) {
       if (err) {
         console.log(err)
       }
 
-      cb && cb(file)
+      // output有很多\，手动去掉
+      cb && cb(unescapeBackslash(result.contents))
     })
 }
 
