@@ -22,7 +22,7 @@ function compileFile(file) {
     content: input
   }, (output) => {
     if (!fs.existsSync(dist)) {
-      fs.mkdirSync(dist)
+      fs.mkdirSync(dist, { recursive: true })
     }
 
     fs.writeFileSync(path.resolve(__dirname, `${dist}/${file}`), output, { encoding: 'utf-8' })
